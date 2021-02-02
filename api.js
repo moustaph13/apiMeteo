@@ -1,0 +1,29 @@
+const cities = document.querySelector('#cities');
+const button = document.querySelector('#button');
+const keyword = document.querySelector('#keyword');
+const test = document.querySelector('#test');
+
+const searchCity = (city) => {
+	const url =  `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=1ce64129da731d692308f766613a1037`;
+	
+	fetch(url)
+	.then(response => response.json())
+	.then((data) => {  
+		data.main.temp = Math.round(data.main.temp - 273.15);
+		console.log(data.main.temp);
+		test.insertAdjacentHTML('beforeEnd',`
+		<p>la température de ${data.name} est de ${data.main.temp}</p>
+		`);
+    })
+    .catch((error) => {                 // afficher une erreur
+        console.log(`Voici mon erreur ${error}`);
+    });
+}; 
+
+cities.addEventListener('keypress', (event) => {
+	event.preventDefault();
+	console.log(cities.value);
+	searchCity(cities.value);
+	
+});
+
